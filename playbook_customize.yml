@@ -1,0 +1,51 @@
+---
+- name: Configure VM
+  hosts: all
+  become: true
+  tasks:
+    - name: Fix locale
+      apt:
+        name: language-pack-de
+
+        
+- name: Setup Jupyter
+  hosts: all
+  tasks:
+    - name: Generate Jupyter config
+      shell: jupyter notebook --generate-config
+
+    - name: Allow external hosts on Jupyter
+      lineinfile:
+        path: /home/ubuntu/.jupyter/jupyter_notebook_config.py
+        regexp: '#c\.NotebookApp\.ip = ''localhost'''
+        line: 'c.NotebookApp.ip = ''0.0.0.0'''
+        backup: yes
+      
+    - name: Create folder for Jupyter notebooks
+      file:
+        path: /vagrant/jupyter
+        state: directory
+
+        
+- name: Install XGBoost
+  hosts: all
+  become: true
+  tasks:
+    - name: Install locally built XGBoost python package
+      shell: cd /opt/repos/xgboost/python-package &&  /usr/local/anaconda/bin/python setup.py install
+
+    - name: Symlink XGBoost repo to make eg. demo folder accessible in Jupyter
+      file:
+        src: /opt/repos/xgboost
+        dest: /vagrant/jupyter/xgboost
+        state: link
+
+        
+- name: Install additional packages
+  hosts: all
+  become: true
+  tasks:
+    - name: Install LIME (Local Interpretable Model-agnostic Explanations)
+      pip:
+        name: lime
+

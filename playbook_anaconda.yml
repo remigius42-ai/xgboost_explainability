@@ -1,0 +1,32 @@
+---
+- name: Install Anaconda with some dependencies
+  hosts: all
+  become: yes
+  roles:
+    - { role: andrewrothstein.anaconda, anaconda_make_sys_default: true }
+  tasks:
+    - name: Add Anaconda to sudoers path
+      lineinfile:
+        path: /etc/sudoers
+        regexp: 'secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"'
+        line: 'Defaults	secure_path="/usr/local/anaconda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"'
+        validate: '/usr/sbin/visudo -cf %s'
+        
+    - name: Install pytorch for Anaconda without CUDA
+      shell: conda install -y pytorch torchvision -c soumith
+
+    - name: Install keras
+      shell: conda install -y keras
+      
+    - name: Install dependencies of Spyder
+      apt:
+        name: python3-pyqt5
+
+    - name: Install Graphviz binaries
+      apt:
+        name: graphviz
+
+    - name: Install Graphviz python bindings
+      pip:
+        name: graphviz
+

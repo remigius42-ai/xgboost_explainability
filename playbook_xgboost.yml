@@ -1,0 +1,39 @@
+---
+- name: Build XGBoost and xgboost4j with dependencies.jar
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install necessary packages
+      apt:
+        name: "{{ item }}"
+        update_cache: yes
+      with_items:
+        - build-essential
+        - cmake
+        - git
+        - g++-4.8
+        - openjdk-8-jdk
+        - maven
+
+    - name: Clone xgboost repository
+      git:
+        repo: 'https://github.com/dmlc/xgboost.git'
+        dest: /opt/repos/xgboost
+        update: yes
+      register: xgboost_repo
+
+    - name: Make
+      shell: cd /opt/repos/xgboost && make -j4
+
+    - name: Make jvm
+      shell: cd /opt/repos/xgboost && export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64 && make jvm
+
+    - name: Make jvm-packages
+      shell: cd /opt/repos/xgboost/jvm-packages && mvn package -Dcheckstyle.skip=true --log-file log.txt
+
+    - name: Copy jvm package to share
+      copy:
+        src: /opt/repos/xgboost/jvm-packages/xgboost4j/target/xgboost4j-0.7-jar-with-dependencies.jar
+        dest: '/vagrant/xgboost4j-0.7-SNAPSHOT-{{ xgboost_repo.after }}-jar-with-dependencies.jar'
+        remote_src: yes
+
