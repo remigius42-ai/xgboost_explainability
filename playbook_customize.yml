@@ -30,6 +30,12 @@
         path: /vagrant/jupyter
         state: directory
 
+    - name: Clone reveal.js into jupyter/lib to enable speaker notes and offline mode
+      git:
+        repo: 'https://github.com/hakimel/reveal.js.git'
+        dest: /vagrant/jupyter/lib/reveal.js
+        update: yes
+
         
 - name: Install XGBoost
   hosts: all
