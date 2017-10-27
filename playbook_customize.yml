@@ -10,9 +10,13 @@
         
 - name: Setup Jupyter
   hosts: all
+  vars:
+    anaconda_bin_path: /usr/local/anaconda/bin
   tasks:
     - name: Generate Jupyter config
-      shell: jupyter notebook --generate-config
+      command: '{{ anaconda_bin_path }}/jupyter notebook --generate-config'
+      args:
+        creates: /home/ubuntu/.jupyter/jupyter_notebook_config.py
 
     - name: Allow external hosts on Jupyter
       lineinfile:
