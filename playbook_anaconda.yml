@@ -11,7 +11,7 @@
         regexp: 'secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"'
         line: 'Defaults	secure_path="/usr/local/anaconda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"'
         validate: '/usr/sbin/visudo -cf %s'
-        
+
     - name: Install pytorch for Anaconda without CUDA
       shell: conda install -y pytorch torchvision -c soumith
 
@@ -33,3 +33,6 @@
     - name: Install sklearn_pandas
       pip:
         name: sklearn-pandas
+
+    - name: Install jupyter_contrib_nbextensions for pep8 and spell checking
+      shell: conda install -c conda-forge -y jupyter_contrib_nbextensions
