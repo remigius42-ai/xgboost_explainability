@@ -30,3 +30,6 @@
       pip:
         name: graphviz
 
+    - name: Install sklearn_pandas
+      pip:
+        name: sklearn-pandas
