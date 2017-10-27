@@ -12,3 +12,9 @@
 
 # XGBoost ignores
 /xgboost4j*.jar
+/jupyter/xgboost
+
+# Jupyter ignores
+# Local reveal.js
+/jupyter/lib
+/jupyter/.ipynb_checkpoints
