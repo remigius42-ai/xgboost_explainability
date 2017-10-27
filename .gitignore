@@ -1,0 +1,14 @@
+# Vagrant ignores
+# Created when running vagrant up
+/.vagrant/
+/ubuntu-xenial-16.04-cloudimg-console.log
+
+# Ansible ignores
+# Created due to referenced role in requirements_anaconda.yml
+/roles/
+
+# Emacs ignores
+*~
+
+# XGBoost ignores
+/xgboost4j*.jar
