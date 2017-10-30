@@ -36,3 +36,7 @@
 
     - name: Install jupyter_contrib_nbextensions for pep8 and spell checking
       shell: conda install -c conda-forge -y jupyter_contrib_nbextensions
+
+    - name: Install autopep8 for pep8 checking with jupyter_contrib_nbextensions
+      pip:
+        name: autopep8
