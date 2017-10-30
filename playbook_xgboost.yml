@@ -1,6 +1,8 @@
 ---
 - name: Build XGBoost and xgboost4j with dependencies.jar
   hosts: all
+  vars:
+    xgboost_repo_path: /opt/repos/xgboost
   become: yes
   tasks:
     - name: Install necessary packages
@@ -18,22 +20,30 @@
     - name: Clone xgboost repository
       git:
         repo: 'https://github.com/dmlc/xgboost.git'
-        dest: /opt/repos/xgboost
+        dest: '{{ xgboost_repo_path }}'
         update: yes
       register: xgboost_repo
 
     - name: Make
-      shell: cd /opt/repos/xgboost && make -j4
+      command: make -j4
+      args:
+        chdir: '{{ xgboost_repo_path}}'
 
     - name: Make jvm
-      shell: cd /opt/repos/xgboost && export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64 && make jvm
+      shell: export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64 && make jvm
+      args:
+        chdir: '{{ xgboost_repo_path}}'
+
 
     - name: Make jvm-packages
-      shell: cd /opt/repos/xgboost/jvm-packages && mvn package -Dcheckstyle.skip=true --log-file log.txt
+      command: mvn package -Dcheckstyle.skip=true --log-file log.txt
+      args:
+        chdir: '{{ xgboost_repo_path}}/jvm-packages'
+
 
     - name: Copy jvm package to share
       copy:
-        src: /opt/repos/xgboost/jvm-packages/xgboost4j/target/xgboost4j-0.7-jar-with-dependencies.jar
+        src: '{{ xgboost_repo_path }}/jvm-packages/xgboost4j/target/xgboost4j-0.7-jar-with-dependencies.jar'
         dest: '/vagrant/xgboost4j-0.7-SNAPSHOT-{{ xgboost_repo.after }}-jar-with-dependencies.jar'
         remote_src: yes
 
