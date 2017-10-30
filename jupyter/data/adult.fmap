@@ -1,0 +1,14 @@
+0	Age	q
+1	Workclass	q
+2	fnlwgt	q
+3	Education	q
+4	Education-Num	q
+5	Marital_Status	int
+6	Occupation	q
+7	Relationship	int
+8	Race	q
+9	Sex	q
+10	Capital_Gain	q
+11	Capital_Loss	q
+12	Hours_per_week	q
+13	Country	q
