@@ -36,7 +36,10 @@
         dest: /vagrant/jupyter/lib/reveal.js
         update: yes
 
-        
+    - name: Install RISE for Jupyter live presentations
+      shell: '{{ anaconda_bin_path }}/conda install -c damianavila82 rise'
+
+
 - name: Install XGBoost
   hosts: all
   become: true
@@ -58,4 +61,6 @@
     - name: Install LIME (Local Interpretable Model-agnostic Explanations)
       pip:
         name: lime
-
+    - name: Install shap for explaining models with Shapley values
+      pip:
+        name: shap
