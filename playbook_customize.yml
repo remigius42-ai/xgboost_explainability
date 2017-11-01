@@ -34,6 +34,7 @@
       git:
         repo: 'https://github.com/hakimel/reveal.js.git'
         dest: /vagrant/jupyter/lib/reveal.js
+        version: 3.5.0
         update: yes
 
     - name: Install RISE for Jupyter live presentations
