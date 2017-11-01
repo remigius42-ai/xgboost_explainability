@@ -12,9 +12,6 @@
         line: 'Defaults	secure_path="/usr/local/anaconda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"'
         validate: '/usr/sbin/visudo -cf %s'
 
-    - name: Install keras
-      shell: conda install -y keras
-      
     - name: Install dependencies of Spyder
       apt:
         name: python3-pyqt5
