@@ -17,10 +17,12 @@
         - openjdk-8-jdk
         - maven
 
-    - name: Clone xgboost repository
+    - name: Clone xgboost repository and checkout version including Tree SHAP
       git:
         repo: 'https://github.com/dmlc/xgboost.git'
         dest: '{{ xgboost_repo_path }}'
+        version: 91af8f710667884d8c841a916f1073b4a7891eaa
+        # version should be after 78c4188cec31425f708d238160ea3afb67a7250a which introduced Tree SHAP
         update: yes
       register: xgboost_repo
 
