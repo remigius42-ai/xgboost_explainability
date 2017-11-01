@@ -37,6 +37,7 @@
         update: yes
 
     - name: Install RISE for Jupyter live presentations
+      become: yes
       shell: '{{ anaconda_bin_path }}/conda install -c damianavila82 -y rise'
 
 
